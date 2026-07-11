@@ -30,6 +30,7 @@ for using everything in this repo under incident pressure.
 | `01_remote_pdb_server.py` | A socket-based `pdb` console for live state inspection/mutation, stdlib only |
 | `02_diagnostics_signal_server.py` | One `SIGUSR1` handler that dumps threads + GC + memory + object counts to a file |
 | `03_incident_checklist.md` | Runbook: symptom -> tool -> module, tying modules 1-4 together |
+| `04_kubernetes_debugging.md` | Running the whole toolbox inside k8s: `exec`/ephemeral containers, `SYS_PTRACE`, probes, core dumps, OOMKilled, `port-forward` |
 
 ## Run order
 
@@ -40,7 +41,9 @@ python 02_diagnostics_signal_server.py
 ```
 
 Then read `03_incident_checklist.md` - it's a reference document for when
-something is actually on fire, not a script to run.
+something is actually on fire, not a script to run - and
+`04_kubernetes_debugging.md` if your service runs in Kubernetes (how to get
+the tools *to* the process without the pod getting restarted under you).
 
 ## Putting it all together
 
