@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  docs:
+    name: Build docs & check links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install doc dependencies
+        run: pip install markdown-it-py
+
+      - name: Check Markdown links
+        run: python scripts/check_links.py
+
+      - name: Build docs
+        run: python scripts/build_docs.py
+
+  smoke:
+    name: Smoke-run workloads & demo scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      # The runnable demo scripts and workloads should import and run without
+      # crashing. Interactive/long-running ones are invoked in safe/bounded
+      # modes so CI stays fast and non-blocking.
+      - name: Non-interactive demo scripts
+        run: |
+          python docs/01_stack_dumps/01_traceback_module.py
+          python docs/01_stack_dumps/05_pdb_post_mortem.py
+          python workloads/async_stall.py --safe
+          python workloads/deadlock.py --safe

@@ -9,15 +9,17 @@ tools that live in the **layers around** that:
   (`strace`/`lsof`/`/proc`).
 - **Alongside** your code, as lightweight dev aids: trace-what-ran and
   print-debugging-done-right (`PySnooper`, `snoop`, `hunter`, `icecream`,
-  `rich`), and "which lines actually executed" (`coverage.py`).
-- **Above** your code, across a whole fleet or request path: production
-  **error tracking** (Sentry) and **distributed tracing** (OpenTelemetry).
+  `rich`), "which lines actually executed" (`coverage.py`), and debugging
+  straight from a failing test (`pytest`).
+- **Above** your code, across a whole fleet or request path: the always-on
+  **logging** baseline, production **error tracking** (Sentry), and
+  **distributed tracing** (OpenTelemetry).
 
 ```
-above   Sentry / OpenTelemetry     which request, which service, aggregated  (03, 04)
+above   logging / Sentry / OTel    what happened / crashed / which service   (03, 04, 05)
 ------  ------------------------------------------------------------------
 your    py-spy / pystack / pdb     which function / line          (modules 1-5)
-code    PySnooper / rich / coverage which lines ran, with values  (01, 02)
+code    snoop / rich / coverage / pytest   which lines ran, with values   (01, 02, 06)
 ------  ------------------------------------------------------------------
 below   strace / lsof / /proc      which syscall / fd             (module 1)
 ```
@@ -50,6 +52,8 @@ across three services, when I wasn't watching?"*
 | `02_coverage.md` | `coverage.py` to prove which lines/branches ran |
 | `03_sentry.md` | Production error tracking: aggregate exceptions with full context across a fleet |
 | `04_opentelemetry.md` | Distributed tracing: follow one request across multiple services |
+| `05_logging.md` | `logging` done right + structured logging + correlation IDs - the always-on baseline |
+| `06_pytest_debugging.md` | Debugging from tests: `--pdb`, `--trace`, `--lf`, `--showlocals`, fixtures |
 
 ## When you're in this module
 

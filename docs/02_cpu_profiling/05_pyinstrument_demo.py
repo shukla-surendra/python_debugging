@@ -27,7 +27,7 @@ from pathlib import Path
 
 from pyinstrument import Profiler
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.cpu_bound import run  # noqa: E402
 
 

@@ -28,7 +28,7 @@ from pathlib import Path
 
 import objgraph
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.memory_leak import Node, leak_via_reference_cycle  # noqa: E402
 
 

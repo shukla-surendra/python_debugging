@@ -62,7 +62,7 @@ Memory problems come in a few flavors, and different tools suit each:
 ## Run order
 
 ```bash
-cd 03_memory_profiling
+cd docs/03_memory_profiling
 python 01_sys_getsizeof.py
 python 02_tracemalloc_basics.py
 python 03_tracemalloc_snapshot_diff.py

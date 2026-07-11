@@ -24,7 +24,7 @@ import pstats
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.cpu_bound import one_round  # noqa: E402
 
 

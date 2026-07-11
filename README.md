@@ -36,6 +36,7 @@ compare tools apples-to-apples:
 | `memory_leak.py` | Unbounded cache, reference cycles, closures capturing buffers | Memory profilers, `gc` |
 | `io_bound_sleep.py` | Multiple threads doing `time.sleep` (stand-in for I/O) | Stack dumps, concurrency |
 | `deadlock.py` | Two threads acquire two locks in opposite order | Stack dumps, hang diagnosis |
+| `async_stall.py` | An asyncio coroutine that blocks the event loop (vs. `--safe`) | asyncio debugging, VizTracer timelines |
 | `recursion_blowup.py` | Deep / unbounded recursion | Stack traces, `RecursionError` |
 
 ## Learning path

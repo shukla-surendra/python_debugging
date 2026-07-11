@@ -19,10 +19,10 @@ Scalene 2.x has a `run`/`view` split: `run` profiles and saves JSON,
 `view` displays it (in browser or terminal).
 
 ```bash
-cd 02_cpu_profiling
+cd docs/02_cpu_profiling
 
 # Profile (CPU + memory). Use `---` to pass args to the target script.
-scalene run -o scalene-profile.json ../workloads/cpu_bound.py --- --rounds 5
+scalene run -o scalene-profile.json ../../workloads/cpu_bound.py --- --rounds 5
 
 # View in the terminal (no browser needed - good for SSH sessions / CI logs)
 scalene view --cli
@@ -31,7 +31,7 @@ scalene view --cli
 Verified output for `cpu_bound.py` (columns trimmed for width):
 
 ```
- /home/.../workloads/cpu_bound.py: % of time = 100.00% (128.752ms) out of 128.752ms.
+ /home/.../../workloads/cpu_bound.py: % of time = 100.00% (128.752ms) out of 128.752ms.
         ╷       ╷       ╷       ╷       ╷
        Time   │ ────── │ ────── │ Await │
   Line │Python│ native │ system │   %   │ Line contents
@@ -57,7 +57,7 @@ Drop `--cpu-only` (it's the default to also collect memory) and point it at
 the memory-leak workload:
 
 ```bash
-scalene run -o leak-profile.json ../workloads/memory_leak.py
+scalene run -o leak-profile.json ../../workloads/memory_leak.py
 scalene view --cli
 ```
 

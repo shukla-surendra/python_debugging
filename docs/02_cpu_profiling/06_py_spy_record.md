@@ -14,8 +14,8 @@ parent of the target process.
 ## 1. Flamegraph (`record`, default format)
 
 ```bash
-cd 02_cpu_profiling
-py-spy record -o profile.svg -- ../.venv/bin/python ../workloads/cpu_bound.py --seconds 3
+cd docs/02_cpu_profiling
+py-spy record -o profile.svg -- ../../.venv/bin/python ../../workloads/cpu_bound.py --seconds 3
 ```
 
 ```
@@ -41,7 +41,7 @@ For `cpu_bound.py` you should see three towers above `one_round`:
 
 ```bash
 py-spy record -f speedscope -o profile.speedscope.json -- \
-    ../.venv/bin/python ../workloads/cpu_bound.py --seconds 2
+    ../../.venv/bin/python ../../workloads/cpu_bound.py --seconds 2
 ```
 
 ```
@@ -58,7 +58,7 @@ easier than a raw flamegraph for recursive code like `fibonacci`.
 
 ```bash
 # Terminal 1: start a long-running workload
-../.venv/bin/python ../workloads/cpu_bound.py --seconds 60
+../../.venv/bin/python ../../workloads/cpu_bound.py --seconds 60
 
 # Terminal 2 (needs ptrace permissions - see 01_stack_dumps/06_py_spy_dump.md)
 sudo py-spy top --pid $(pgrep -f cpu_bound.py)
@@ -67,7 +67,7 @@ sudo py-spy top --pid $(pgrep -f cpu_bound.py)
 This shows a `top`-style table refreshed ~once/second:
 
 ```
-Collecting samples from 'python ../workloads/cpu_bound.py --seconds 60' (python v3.14.4)
+Collecting samples from 'python ../../workloads/cpu_bound.py --seconds 60' (python v3.14.4)
 Total Samples 1500
 GIL: 100.00%, Active: 100.00%, Threads: 1
 
@@ -85,7 +85,7 @@ if it's low, your threads are fighting over the GIL rather than computing.
 ## 4. Profiling subprocesses / multiprocessing
 
 ```bash
-py-spy record -s -o profile.svg -- ../.venv/bin/python my_multiprocess_app.py
+py-spy record -s -o profile.svg -- ../../.venv/bin/python my_multiprocess_app.py
 ```
 
 `-s`/`--subprocesses` makes `py-spy` also sample any child processes - vital

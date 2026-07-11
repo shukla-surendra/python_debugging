@@ -64,7 +64,7 @@ which is why they're indispensable for production incidents - see
 ## Run order
 
 ```bash
-cd 01_stack_dumps
+cd docs/01_stack_dumps
 python 01_traceback_module.py
 python 02_faulthandler_basics.py
 python 03_signal_handler_dump.py      # then, in another terminal: kill -USR1 <pid>

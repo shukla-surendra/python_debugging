@@ -28,7 +28,13 @@ deterministic, line-by-line breakdown of just that area.
 | `line_profiler` | deterministic | **per-line** | high | pick functions to instrument |
 | `pyinstrument` | statistical | per-call (call tree) | low | zero setup |
 | `py-spy record`/`top` | statistical, **out-of-process** | per-call (flamegraph) | ~zero | none - works on running processes |
+| `austin` | statistical, **out-of-process** | per-call (also memory mode) | ~zero | tiny zero-dependency binary + `pip install austin-python` |
 | `scalene` | hybrid (statistical CPU + instrumented memory) | **per-line**, splits Python/native/system time | low-medium | zero setup |
+
+All the tools above **aggregate** time by function/line. For a **timeline**
+(the order things ran in, and where the gaps are - crucial for async and
+concurrency), see VizTracer in
+[`../04_concurrency_debugging/05_viztracer_timeline.md`](../04_concurrency_debugging/05_viztracer_timeline.md).
 
 ## Files in this module
 
@@ -41,11 +47,12 @@ deterministic, line-by-line breakdown of just that area.
 | `05_pyinstrument_demo.py` | `pyinstrument.Profiler` - low-overhead call-tree profiling, HTML report |
 | `06_py_spy_record.md` | `py-spy record`/`top` - flamegraphs for any running process |
 | `07_scalene_demo.md` | `scalene` CLI - per-line CPU/native/system split |
+| `08_austin.md` | `austin` - minimal zero-dependency out-of-process sampler (time + memory), `austin-tui` |
 
 ## Run order
 
 ```bash
-cd 02_cpu_profiling
+cd docs/02_cpu_profiling
 python 01_cprofile_basics.py
 python 02_save_and_load_profile.py
 python 03_timeit_microbenchmarks.py
@@ -53,8 +60,8 @@ python 04_line_profiler_demo.py
 python 05_pyinstrument_demo.py
 ```
 
-Then read `06_py_spy_record.md` and `07_scalene_demo.md` and run the
-commands shown there.
+Then read `06_py_spy_record.md`, `07_scalene_demo.md`, and `08_austin.md`
+and run the commands shown there.
 
 ## Decision guide
 
@@ -63,6 +70,7 @@ commands shown there.
 ├── Don't know which function -> pyinstrument or py-spy record (low overhead, call tree / flamegraph)
 ├── Know the function, want line detail -> line_profiler
 ├── Comparing two small implementations -> timeit
-├── Need to profile a process you can't restart -> py-spy top / py-spy record --pid
+├── Need to profile a process you can't restart -> py-spy top / py-spy record --pid (or austin -p)
+├── Want the ORDER things ran in / async event-loop gaps -> VizTracer (module 4)
 └── Suspect it's secretly a MEMORY problem (swapping, GC pressure) -> scalene (shows CPU + memory together)
 ```

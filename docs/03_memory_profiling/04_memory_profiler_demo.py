@@ -25,7 +25,7 @@ from pathlib import Path
 
 from memory_profiler import memory_usage
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.memory_leak import (  # noqa: E402
     clear_global_cache,
     healthy_allocation,
@@ -121,7 +121,7 @@ def demo_decorator_reference() -> None:
 
 def demo_mprof_cli() -> None:
     section("4. `mprof` - record + plot memory over the WHOLE program's life")
-    print("mprof run python ../workloads/memory_leak.py")
+    print("mprof run python ../../workloads/memory_leak.py")
     print("mprof plot          # opens a matplotlib graph of RSS vs time")
     print()
     print("Useful for long-running services: run `mprof run` in place of")

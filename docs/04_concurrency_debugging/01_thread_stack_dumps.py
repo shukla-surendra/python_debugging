@@ -28,7 +28,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.cpu_bound import sum_of_squares  # noqa: E402
 from workloads.io_bound_sleep import handle_request  # noqa: E402
 

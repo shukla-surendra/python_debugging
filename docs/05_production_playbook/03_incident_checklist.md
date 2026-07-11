@@ -8,6 +8,11 @@ Every step here assumes you can run commands on the host (or a debug
 sidecar/exec into the container) but generally **cannot restart the
 process** - that's the whole point of these tools.
 
+> **Running in Kubernetes?** The *diagnosis* below is the same, but getting
+> the tools to the process (exec vs. ephemeral debug container, `SYS_PTRACE`,
+> not tripping liveness probes, `port-forward`, core dumps, OOMKilled) has its
+> own playbook: [`04_kubernetes_debugging.md`](04_kubernetes_debugging.md).
+
 ---
 
 ## 0. First, get the PID and basic vitals
@@ -123,6 +128,13 @@ ls /proc/<PID>/task/ | wc -l          # number of OS threads
    ```
    See [`03_memory_profiling/07_gc_module_demo.py`](../03_memory_profiling/07_gc_module_demo.py).
 
+7. **Already got OOM-killed (exit 137 / `OOMKilled`)?** `SIGKILL` gives the
+   process no chance to dump anything - there's no traceback or core to read.
+   Memory debugging then has to be **proactive**: reproduce under a slightly
+   lower limit with `memray`/`tracemalloc` running, and check whether it's a
+   real leak or just a limit below the working set. In Kubernetes see
+   [`04_kubernetes_debugging.md`](04_kubernetes_debugging.md).
+
 ---
 
 ## 3. The process is hung / not responding (~0% CPU)
@@ -131,8 +143,10 @@ ls /proc/<PID>/task/ | wc -l          # number of OS threads
    process never planned for this:
    ```bash
    py-spy dump --pid <PID>
+   pystack remote <PID> --native      # also shows GIL holder / GC state / native frames
    ```
-   See [`01_stack_dumps/06_py_spy_dump.md`](../01_stack_dumps/06_py_spy_dump.md).
+   See [`01_stack_dumps/06_py_spy_dump.md`](../01_stack_dumps/06_py_spy_dump.md)
+   and [`01_stack_dumps/08_pystack.md`](../01_stack_dumps/08_pystack.md).
 
 2. **Read every thread's frame**:
    - Multiple threads stuck in `Lock.acquire()` on **different** lock
@@ -145,12 +159,22 @@ ls /proc/<PID>/task/ | wc -l          # number of OS threads
      is the problem (infinite loop, waiting on a slow/unreachable
      dependency with no timeout - e.g. a DB call with no `statement_timeout`).
 
-3. **If `py-spy` can't attach (ptrace denied, can't get sudo)**: `gdb -p
+3. **The top frame is a syscall (`read`/`recv`/`acquire`/`poll`)?** Drop to
+   the OS layer to see what it's *really* blocked on - `py-spy` shows the
+   Python function, not the fd or peer:
+   ```bash
+   sudo strace -p <PID> -f            # futex=lock/GIL, recvfrom=network hang
+   sudo lsof -p <PID> | grep TCP      # name the socket/DB it's stuck on
+   cat /proc/<PID>/status | grep State  # D = uninterruptible I/O (infra problem)
+   ```
+   See [`01_stack_dumps/10_os_level_introspection.md`](../01_stack_dumps/10_os_level_introspection.md).
+
+4. **If `py-spy` can't attach (ptrace denied, can't get sudo)**: `gdb -p
    <PID>` plus the CPython gdb extensions can still get a stack, even from a
    process stuck in a C call / native deadlock that `py-spy` can't symbolicate
    well. See [`01_stack_dumps/07_gdb_python_extension.md`](../01_stack_dumps/07_gdb_python_extension.md).
 
-4. **If the process has a pre-armed watchdog** (see §5), it may have already
+5. **If the process has a pre-armed watchdog** (see §5), it may have already
    written a dump to disk when it first got stuck - check the logs/diagnostics
    directory before doing anything live.
 
@@ -193,7 +217,18 @@ Everything above is much easier if the process already has:
       [`04_concurrency_debugging/01_thread_stack_dumps.py`](../04_concurrency_debugging/01_thread_stack_dumps.py).
 - [ ] `gc.freeze()` after startup/warmup if you `fork()` worker processes -
       see [`03_memory_profiling/07_gc_module_demo.py`](../03_memory_profiling/07_gc_module_demo.py) §5.
-- [ ] `py-spy` (and `gdb` + `python3-dbg`) available on the HOST or a debug
-      sidecar image - these are the tools that need zero pre-planning in the
-      target process, but the BINARIES still need to be installed somewhere
-      you can reach.
+- [ ] `py-spy`/`pystack` (and `gdb` + `python3-dbg`, `strace`, `lsof`)
+      available on the HOST or a debug sidecar/ephemeral image - these need
+      zero pre-planning in the target process, but the BINARIES still need to
+      be installed somewhere you can reach (in k8s, a debug-tools image - see
+      [`04_kubernetes_debugging.md`](04_kubernetes_debugging.md)).
+- [ ] **Structured logging** with a trace/correlation ID on every line - often
+      the diagnosis *is* in the logs. See
+      [`../06_observability/05_logging.md`](../06_observability/05_logging.md).
+- [ ] **Error tracking** (Sentry) so crashes are captured with locals/context
+      across the fleet, and **distributed tracing** (OpenTelemetry) if the
+      request crosses services - the "always recording" layers. See
+      [`../06_observability/03_sentry.md`](../06_observability/03_sentry.md)
+      and [`../06_observability/04_opentelemetry.md`](../06_observability/04_opentelemetry.md).
+- [ ] A **continuous profiler** (Pyroscope/Parca) if you keep needing to ask
+      "why was it slow last night" - the look-backwards version of `py-spy`.

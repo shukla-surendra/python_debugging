@@ -48,6 +48,10 @@ hunter==3.7.0            # predicate-based tracing, filter a slice of a big code
 icecream==2.1.3          # ic() - a much better print() for value/where checks
 rich==14.2.0             # rich tracebacks (show_locals), inspect(), pretty print
 coverage==7.6.4          # which lines/branches actually ran (a debugging tool too)
+pytest==8.3.3            # debug from failing tests - 06_observability/06_pytest_debugging.md
+# Structured-logging backends (pick one) - 06_observability/05_logging.md:
+#   structlog                     # ergonomic structured logging
+#   python-json-logger            # JSON formatter for stdlib logging
 # Production observability SDKs are backend-specific; install when you wire them:
 #   sentry-sdk                    # error tracking - 06_observability/03_sentry.md
 #   opentelemetry-distro \        # distributed tracing - 06_observability/04_opentelemetry.md

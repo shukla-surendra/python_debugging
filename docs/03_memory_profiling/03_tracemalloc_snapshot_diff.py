@@ -22,7 +22,7 @@ import sys
 import tracemalloc
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.memory_leak import (  # noqa: E402
     clear_global_cache,
     healthy_allocation,

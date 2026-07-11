@@ -42,7 +42,7 @@ The direct analogue of `py-spy dump`:
 
 ```bash
 # Terminal 1
-python ../workloads/deadlock.py        # prints: PID = 12345, then hangs
+python ../../workloads/deadlock.py        # prints: PID = 12345, then hangs
 
 # Terminal 2
 sudo pystack remote 12345

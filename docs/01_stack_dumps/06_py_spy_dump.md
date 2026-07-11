@@ -47,7 +47,7 @@ This is the direct equivalent of `faulthandler.dump_traceback()`, but from
 
 ```bash
 # Terminal 1
-python ../workloads/deadlock.py
+python ../../workloads/deadlock.py
 # prints: PID = 12345
 #         Running WITHOUT --safe: this will deadlock and hang forever.
 
@@ -59,7 +59,7 @@ Expected output (abbreviated) - notice **both** worker threads are stuck on
 `acquire`, each holding the lock the other one wants:
 
 ```
-Process 12345: python ../workloads/deadlock.py
+Process 12345: python ../../workloads/deadlock.py
 Python v3.14.4
 
 Thread 0x7F... (active): "deadlock-worker-1"
@@ -130,7 +130,7 @@ Time" busiest - across **all threads**, updated in place. Press `q` to quit.
 For a CPU-bound workload, point it at `cpu_bound.py`:
 
 ```bash
-python ../workloads/cpu_bound.py --seconds 30 &
+python ../../workloads/cpu_bound.py --seconds 30 &
 sudo py-spy top --pid $!
 ```
 
@@ -143,9 +143,9 @@ If you don't have `ptrace` permissions, let `py-spy` launch the process
 itself - this was verified to work in this repo's sandbox:
 
 ```bash
-cd 01_stack_dumps
+cd docs/01_stack_dumps
 py-spy record -o profile.svg -- \
-    ../.venv/bin/python ../workloads/cpu_bound.py --seconds 3
+    ../../.venv/bin/python ../../workloads/cpu_bound.py --seconds 3
 ```
 
 Output:

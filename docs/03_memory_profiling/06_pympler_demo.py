@@ -21,7 +21,7 @@ from pathlib import Path
 
 from pympler import asizeof, muppy, summary, tracker
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.memory_leak import (  # noqa: E402
     Node,
     clear_global_cache,

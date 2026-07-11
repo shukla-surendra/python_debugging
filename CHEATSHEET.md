@@ -44,10 +44,28 @@ py-spy top --pid <PID>
 # Spawn mode - no special permissions needed (py-spy is the parent):
 py-spy record -o out.svg -- python myscript.py
 
+# pystack - live process OR core dump, with native frames + GIL/GC state (Linux):
+pystack remote <PID>                 # like py-spy dump, plus GIL holder / GC state
+pystack remote <PID> --native --locals
+pystack core ./core.<PID> --native   # post-mortem from a crash core dump
+
+# debugpy - interactive/remote (IDE) debugging over a socket:
+python -m debugpy --listen 127.0.0.1:5678 --wait-for-client myapp.py
+# then attach VS Code/PyCharm; tunnel with: kubectl port-forward / ssh -L 5678:...
+
 # Last resort - works even on native/GIL-stuck deadlocks:
 gdb -p <PID>
 (gdb) py-bt
 (gdb) py-list
+```
+
+```bash
+# OS layer - what is it doing BELOW Python (which syscall / fd / kernel state):
+sudo strace -p <PID> -f              # every syscall; futex=lock/GIL, recvfrom=network
+sudo strace -c -f -p <PID>           # summary table of syscall time (Ctrl-C to print)
+sudo lsof -p <PID>                   # open files/sockets - name the fd it's stuck on
+cat /proc/<PID>/status | grep State  # D = uninterruptible I/O sleep (won't budge)
+cat /proc/<PID>/task/*/stack         # per-thread kernel stack (root)
 ```
 
 ## CPU profiling (module 2)
@@ -89,6 +107,12 @@ py-spy record -o out.svg --pid <PID> --duration 30 --subprocesses
 scalene run -o profile.json myscript.py
 scalene view --cli
 scalene run --cpu-only -o profile.json myscript.py   # CPU only, lower overhead
+
+# austin - minimal zero-dependency out-of-process sampler (time + memory):
+austin -i 1ms -o out.austin python myscript.py
+austin -p <PID>                       # attach to a running process
+austin-tui python myscript.py         # live top-like TUI
+austin2speedscope out.austin out.json # view at https://www.speedscope.app/
 ```
 
 ## Memory profiling (module 3)
@@ -167,6 +191,16 @@ asyncio.run(main(), debug=True)
 # Profile a multiprocessing program - one PID per process:
 py-spy dump --pid <PARENT_PID> --subprocesses
 py-spy record -o out.svg --pid <PARENT_PID> --subprocesses
+
+# VizTracer - TIMELINE (order + gaps), the visual tool for async/concurrency:
+viztracer --open myscript.py                       # trace + open Perfetto UI
+viztracer --log_async -o result.json myapp.py      # asyncio: which coroutine stalled
+viztracer --log_multiprocess -o result.json app.py # across child processes
+vizviewer result.json                              # open a saved trace
+
+# See an event-loop stall live (blocks the loop; --safe fixes it):
+python workloads/async_stall.py            # heartbeat STALLs behind blocking work
+python workloads/async_stall.py --safe     # blocking work moved to a thread
 ```
 
 ## Production playbook (module 5)
@@ -191,6 +225,66 @@ kill -USR1 <PID>
 cat /var/log/myapp/diag-<PID>-*.txt
 ```
 
+### Kubernetes (module 5)
+
+```bash
+# Snapshot a live pod (safe, ~1ms pause; app is usually PID 1):
+kubectl exec <pod> -- py-spy dump --pid 1
+kubectl exec <pod> -- pystack remote 1 --native
+
+# Distroless/slim image (no shell/tools) -> ephemeral debug container:
+kubectl debug -it <pod> --image=debug-tools --target=<container> --profile=sysadmin
+
+# Interactive debugger, safely: drain from Service, THEN tunnel:
+kubectl label pod <pod> app=myapp-DEBUG --overwrite    # stop traffic, keep pod alive
+kubectl port-forward <pod> 5678:5678                   # attach debugpy / remote-pdb
+
+kubectl exec <pod> -- kill -USR1 1                     # trigger armed diagnostics
+kubectl logs <pod> --previous                          # logs from the crashed container
+kubectl get pod <pod> -o jsonpath='{.status.containerStatuses[0].lastState.terminated}'
+# exitCode 137 = OOMKilled, 139 = SIGSEGV (grab a core), 1 = app error (see the traceback)
+kubectl cp <pod>:/tmp/core.1 ./core.1 && pystack core ./core.1 --native
+```
+
+## Observability & auxiliary (module 6)
+
+```python
+# logging - lazy %-formatting; log the traceback inside except:
+import logging; log = logging.getLogger(__name__)
+log.info("handled in %d ms", ms)          # %s/%d, NOT f-strings (lazy)
+log.exception("charge failed order=%s", order_id)   # message + traceback
+
+# Lightweight tracing / print-debugging:
+import pysnooper
+@pysnooper.snoop()                         # log every line + variable change
+def f(...): ...
+from icecream import ic; ic(x, y)          # better print: "ic| x: 1, y: 2"
+from rich.traceback import install; install(show_locals=True)  # pretty tracebacks
+```
+
+```bash
+# hunter - trace a slice of a big codebase without editing it:
+PYTHONHUNTER='module="myapp.orders", action=CallPrinter()' python app.py
+
+# coverage - prove which lines/branches actually ran:
+coverage run --branch myscript.py && coverage report -m
+coverage html                              # annotated source: green=ran, red=didn't
+
+# pytest debugging:
+pytest --lf -x --pdb                       # rerun last failures, stop at 1st, drop to pdb
+pytest -l                                  # --showlocals in tracebacks
+pytest --trace -k test_name                # pdb at the START of a specific test
+```
+
+Production observability (wire in ahead of time):
+
+```python
+import sentry_sdk                                   # error tracking across the fleet
+sentry_sdk.init(dsn="...", environment="prod", release="myapp@1.4.2")
+# OpenTelemetry - distributed tracing across services (zero-code auto-instrument):
+#   opentelemetry-instrument python app.py
+```
+
 ## Decision quick-picks
 
 | Question | Tool |
@@ -207,4 +301,12 @@ cat /var/log/myapp/diag-<PID>-*.txt
 | Deep size of one object | `pympler.asizeof.asizeof()` |
 | Reference-cycle / GC questions | `gc.collect()`, `gc.get_stats()`, `gc.garbage` |
 | Which thread is stuck vs. just idle? | dump all threads, read the top frame |
+| Stack ends in a syscall - what's it *really* waiting on? | `strace -p <PID>` + `lsof -p <PID>` |
+| Post-mortem a crash / need native frames / only have a core | `pystack remote`/`pystack core --native` |
+| Interactive debug of a remote/containerized process | `debugpy` + `port-forward` |
+| ORDER things ran in / async event-loop stall | VizTracer (`--log_async`) |
+| Which lines/branches actually executed? | `coverage run --branch` |
+| Aggregate crashes across the fleet, with context | Sentry |
+| Which service/hop in a multi-service request is slow? | OpenTelemetry |
+| Debug from a failing test | `pytest --lf -x --pdb` |
 | Live inspect/mutate process state, no restart | remote pdb console (module 5) |

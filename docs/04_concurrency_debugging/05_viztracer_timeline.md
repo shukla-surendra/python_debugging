@@ -21,10 +21,10 @@ pip install viztracer
 ## 1. Trace a script and open the timeline
 
 ```bash
-viztracer ../workloads/io_bound_sleep.py     # writes result.json
+viztracer ../../workloads/io_bound_sleep.py     # writes result.json
 vizviewer result.json                        # opens the Perfetto UI in a browser
 # or in one step:
-viztracer --open ../workloads/io_bound_sleep.py
+viztracer --open ../../workloads/io_bound_sleep.py
 ```
 
 In the viewer, the **x-axis is real time** and each row is a thread (or, for
@@ -61,8 +61,16 @@ requests" (the classic event-loop stall from
 *exactly* which coroutine held the loop and for how long.
 
 ```bash
-viztracer --log_async -o result.json my_async_app.py
+viztracer --log_async -o result.json ../../workloads/async_stall.py
 ```
+
+`workloads/async_stall.py` is built for exactly this: a `heartbeat` coroutine
+that should tick every 0.1s, and request handlers that block the loop with
+synchronous CPU work. On the timeline you'll see the heartbeat's regular
+little bars, then a long wide bar (a blocking `handle_request`) with the
+heartbeat frozen behind it - the stall, made visible. Run it with `--safe`
+and trace again to see the blocking work move off the loop into a thread,
+and the heartbeat stay regular.
 
 `--log_async` labels tasks so you can follow each coroutine across its
 `await` suspensions on the timeline. A single wide bar with everything else
@@ -87,7 +95,7 @@ Because each process has its own tracer state (the recurring theme of this
 module), trace children explicitly:
 
 ```bash
-viztracer --log_multiprocess -o result.json ../workloads/deadlock.py
+viztracer --log_multiprocess -o result.json ../../workloads/deadlock.py
 ```
 
 You then get one combined timeline across the parent and its workers -

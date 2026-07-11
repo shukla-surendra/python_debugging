@@ -14,8 +14,8 @@ Python-aware.
 ## 1. Record a run
 
 ```bash
-cd 03_memory_profiling
-python -m memray run -o memray_output.bin ../workloads/memory_leak.py
+cd docs/03_memory_profiling
+python -m memray run -o memray_output.bin ../../workloads/memory_leak.py
 ```
 
 This runs the target script to completion under memray's allocator hooks and
@@ -114,7 +114,7 @@ Allocator type distribution:
 ## 5. Live mode - attach to a running process
 
 ```bash
-memray run --live python ../workloads/memory_leak.py     # launch + attach live
+memray run --live python ../../workloads/memory_leak.py     # launch + attach live
 memray attach <PID>                                       # attach to an already-running process (Linux)
 ```
 

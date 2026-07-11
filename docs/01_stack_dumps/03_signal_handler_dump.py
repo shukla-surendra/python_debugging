@@ -39,7 +39,7 @@ import time
 import traceback
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 from workloads.cpu_bound import one_round  # noqa: E402
 from workloads.io_bound_sleep import handle_request  # noqa: E402
 

@@ -57,7 +57,7 @@ actually turns on.
 ## Run order
 
 ```bash
-cd 04_concurrency_debugging
+cd docs/04_concurrency_debugging
 python 01_thread_stack_dumps.py
 python 02_asyncio_debug_mode.py
 python 03_multiprocessing_profiling.py

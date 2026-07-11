@@ -35,7 +35,7 @@ for using everything in this repo under incident pressure.
 ## Run order
 
 ```bash
-cd 05_production_playbook
+cd docs/05_production_playbook
 python 01_remote_pdb_server.py
 python 02_diagnostics_signal_server.py
 ```
