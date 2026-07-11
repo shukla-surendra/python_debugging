@@ -1,0 +1,68 @@
+# Memory Management, Debugging & Profiling for Python on Linux, Docker & Kubernetes
+
+> A practical, beginner-to-staff-engineer handbook. It starts with "what is a
+> byte of RAM" and ends with debugging a Kubernetes pod that gets `OOMKilled`
+> every 40 minutes in production. Every concept is explained with the same nine
+> questions in mind: **what it is, why it exists, where it lives, when it grows,
+> when it shrinks, whether it returns memory to the OS, how to inspect it,
+> common misconceptions, and common production issues.**
+
+This handbook is part of the **Python Debugging Dojo**. It is split into one
+Markdown file per chapter (this folder). Build the whole repo — including this
+guide — to browsable HTML with:
+
+```bash
+make docs      # render every .md to docs_html/ and serve at http://localhost:8000
+make check     # validate all relative links + build (CI-friendly, no serve)
+```
+
+The "victim" programs in [`../../workloads/`](../../workloads/) and the runnable
+demos in [`../03_memory_profiling/`](../03_memory_profiling/) are used throughout.
+
+## How to read this book
+
+- **Chapters 1–6** build your mental model: RAM, the process address space, the
+  metrics everyone argues about (RSS/PSS/USS), how CPython allocates, how native
+  libraries allocate, and how the Linux kernel manages pages.
+- **Chapters 7–10** move into containers: cgroups, Docker, Kubernetes, shared
+  memory, and a master table of "what grows, what shrinks, what returns to the
+  OS, what counts against your pod."
+- **Chapters 11–14** are diagnosis: leaks vs. retention vs. fragmentation, the
+  full tool catalog, a Kubernetes debugging workflow, and real case studies.
+- **Chapters 15–21** are mastery: optimization, cheat sheets, 100+ interview
+  questions, hands-on labs, and production best practices.
+- **Appendix** is glossary + decision trees + further reading.
+
+## Chapters
+
+| # | Chapter | Status |
+|---|---|---|
+| 1 | [Introduction — What Memory Actually Is](01_introduction.md) | ✅ |
+| 2 | [Linux Process Memory](02_linux_process_memory.md) | ✅ |
+| 3 | [Memory Metrics (RSS, PSS, USS, and friends)](03_memory_metrics.md) | ✅ |
+| 4 | [Python Memory (CPython internals)](04_python_memory.md) | ✅ |
+| 5 | [Native Memory (NumPy, PyTorch, malloc, jemalloc)](05_native_memory.md) | ✅ |
+| 6 | Linux Memory Internals (paging, faults, OOM killer) | ⏳ |
+| 7 | Docker Memory (cgroups, namespaces, layers) | ⏳ |
+| 8 | Kubernetes Memory (requests, limits, QoS, eviction) | ⏳ |
+| 9 | Shared Memory (/dev/shm, tmpfs, IPC) | ⏳ |
+| 10 | Memory Growth — The Master Table | ⏳ |
+| 11 | Memory Leaks vs. Retention vs. Fragmentation | ⏳ |
+| 12 | Memory Profiling — The Complete Tool Catalog | ⏳ |
+| 13 | Kubernetes Memory Debugging Workflow | ⏳ |
+| 14 | Case Studies from Production | ⏳ |
+| 15 | Optimization Techniques | ⏳ |
+| 16 | Linux Commands Cheat Sheet | ⏳ |
+| 17 | Python Memory Cheat Sheet | ⏳ |
+| 18 | Kubernetes Cheat Sheet | ⏳ |
+| 19 | 100+ Interview Questions | ⏳ |
+| 20 | Practical Labs | ⏳ |
+| 21 | Best Practices | ⏳ |
+| — | Appendix — Glossary, Decision Trees, Further Reading | ⏳ |
+
+You can read front to back to go from beginner to expert, or jump to a chapter
+when you have a fire to put out. Cross-references point you to the prerequisite
+concepts.
+
+> **Progress note:** This handbook is being written one chapter at a time.
+> Ask for "the next chapter" to continue.
