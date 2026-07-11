@@ -362,4 +362,4 @@ allocators to the kernel: demand paging, page tables, minor vs. major page
 faults, the TLB, huge pages/THP, NUMA, copy-on-write `fork()`, overcommit, and
 exactly how the **OOM killer** decides which process dies.*
 
-[← Chapter 4](04_python_memory.md) · [Back to index](README.md)
+[← Chapter 4](04_python_memory.md) · [Back to index](README.md) · [Chapter 6 →](06_linux_memory_internals.md)

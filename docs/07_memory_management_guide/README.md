@@ -42,9 +42,9 @@ demos in [`../03_memory_profiling/`](../03_memory_profiling/) are used throughou
 | 3 | [Memory Metrics (RSS, PSS, USS, and friends)](03_memory_metrics.md) | ✅ |
 | 4 | [Python Memory (CPython internals)](04_python_memory.md) | ✅ |
 | 5 | [Native Memory (NumPy, PyTorch, malloc, jemalloc)](05_native_memory.md) | ✅ |
-| 6 | Linux Memory Internals (paging, faults, OOM killer) | ⏳ |
-| 7 | Docker Memory (cgroups, namespaces, layers) | ⏳ |
-| 8 | Kubernetes Memory (requests, limits, QoS, eviction) | ⏳ |
+| 6 | [Linux Memory Internals (paging, faults, OOM killer)](06_linux_memory_internals.md) | ✅ |
+| 7 | [Docker Memory (cgroups, namespaces, layers)](07_docker_memory.md) | ✅ |
+| 8 | [Kubernetes Memory (requests, limits, QoS, eviction)](08_kubernetes_memory.md) | ✅ |
 | 9 | Shared Memory (/dev/shm, tmpfs, IPC) | ⏳ |
 | 10 | Memory Growth — The Master Table | ⏳ |
 | 11 | Memory Leaks vs. Retention vs. Fragmentation | ⏳ |

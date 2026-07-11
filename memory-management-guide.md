@@ -23,9 +23,9 @@ Start here → **[Memory Management Guide index](docs/07_memory_management_guide
 | 3 | [Memory Metrics (RSS, PSS, USS, and friends)](docs/07_memory_management_guide/03_memory_metrics.md) | ✅ |
 | 4 | [Python Memory (CPython internals)](docs/07_memory_management_guide/04_python_memory.md) | ✅ |
 | 5 | [Native Memory (NumPy, PyTorch, malloc, jemalloc)](docs/07_memory_management_guide/05_native_memory.md) | ✅ |
-| 6 | Linux Memory Internals (paging, faults, OOM killer) | ⏳ |
-| 7 | Docker Memory (cgroups, namespaces, layers) | ⏳ |
-| 8 | Kubernetes Memory (requests, limits, QoS, eviction) | ⏳ |
+| 6 | [Linux Memory Internals (paging, faults, OOM killer)](docs/07_memory_management_guide/06_linux_memory_internals.md) | ✅ |
+| 7 | [Docker Memory (cgroups, namespaces, layers)](docs/07_memory_management_guide/07_docker_memory.md) | ✅ |
+| 8 | [Kubernetes Memory (requests, limits, QoS, eviction)](docs/07_memory_management_guide/08_kubernetes_memory.md) | ✅ |
 | 9 | Shared Memory (/dev/shm, tmpfs, IPC) | ⏳ |
 | 10 | Memory Growth — The Master Table | ⏳ |
 | 11 | Memory Leaks vs. Retention vs. Fragmentation | ⏳ |
