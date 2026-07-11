@@ -400,4 +400,4 @@ POSIX/SysV IPC, `multiprocessing.shared_memory`, when shared memory grows and
 shrinks, and why Chromium, Selenium, PyTorch, and OpenCV need it — plus how to
 size it correctly in Docker and Kubernetes.*
 
-[← Chapter 7](07_docker_memory.md) · [Back to index](README.md)
+[← Chapter 7](07_docker_memory.md) · [Back to index](README.md) · [Chapter 9 →](09_shared_memory.md)

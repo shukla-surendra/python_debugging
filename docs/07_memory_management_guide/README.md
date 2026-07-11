@@ -45,11 +45,11 @@ demos in [`../03_memory_profiling/`](../03_memory_profiling/) are used throughou
 | 6 | [Linux Memory Internals (paging, faults, OOM killer)](06_linux_memory_internals.md) | ✅ |
 | 7 | [Docker Memory (cgroups, namespaces, layers)](07_docker_memory.md) | ✅ |
 | 8 | [Kubernetes Memory (requests, limits, QoS, eviction)](08_kubernetes_memory.md) | ✅ |
-| 9 | Shared Memory (/dev/shm, tmpfs, IPC) | ⏳ |
-| 10 | Memory Growth — The Master Table | ⏳ |
-| 11 | Memory Leaks vs. Retention vs. Fragmentation | ⏳ |
-| 12 | Memory Profiling — The Complete Tool Catalog | ⏳ |
-| 13 | Kubernetes Memory Debugging Workflow | ⏳ |
+| 9 | [Shared Memory (/dev/shm, tmpfs, IPC)](09_shared_memory.md) | ✅ |
+| 10 | [Memory Growth — The Master Table](10_memory_growth.md) | ✅ |
+| 11 | [Memory Leaks vs. Retention vs. Fragmentation](11_memory_leaks.md) | ✅ |
+| 12 | [Memory Profiling — The Complete Tool Catalog](12_memory_profiling.md) | ✅ |
+| 13 | [Kubernetes Memory Debugging Workflow](13_kubernetes_debugging.md) | ✅ |
 | 14 | Case Studies from Production | ⏳ |
 | 15 | Optimization Techniques | ⏳ |
 | 16 | Linux Commands Cheat Sheet | ⏳ |
