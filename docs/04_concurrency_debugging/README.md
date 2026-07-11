@@ -37,6 +37,12 @@ thread/task/process, and ask different questions.
 | `asyncio` debug mode (`PYTHONASYNCIODEBUG=1`) | n/a | **yes** | no |
 | `cProfile` / `py-spy` per worker | one profile covers all threads in a process | covers all tasks (one event loop = one thread) | need one **per process** (or `py-spy --subprocesses`) |
 | `py-spy dump --pid <pid> --subprocesses` | yes | yes | **yes** |
+| VizTracer (timeline) | **yes** (per-thread rows) | **yes** (`--log_async`, task-aware) | **yes** (`--log_multiprocess`) |
+
+The aggregating tools above answer "where does the time go"; **VizTracer**
+(`05_viztracer_timeline.md`) answers the concurrency-specific question of
+**order and gaps on a timeline** - which is usually what a concurrency bug
+actually turns on.
 
 ## Files in this module
 
@@ -46,6 +52,7 @@ thread/task/process, and ask different questions.
 | `02_asyncio_debug_mode.py` | `asyncio.all_tasks()`, `task.get_stack()`, slow-callback warnings, debug mode |
 | `03_multiprocessing_profiling.py` | Per-process `cProfile`, merging `.prof` files with `pstats`, `py-spy --subprocesses` |
 | `04_deadlock_diagnosis.py` | `faulthandler.dump_traceback_later()` as a hang watchdog, reading a lock-ordering deadlock, fixes |
+| `05_viztracer_timeline.md` | VizTracer: a visual **timeline** of threads/tasks/processes - order and gaps, not just totals |
 
 ## Run order
 
@@ -56,6 +63,9 @@ python 02_asyncio_debug_mode.py
 python 03_multiprocessing_profiling.py
 python 04_deadlock_diagnosis.py
 ```
+
+Then read `05_viztracer_timeline.md` and follow along - it renders a timeline
+in a browser (`vizviewer`).
 
 ## Decision guide
 

@@ -90,6 +90,15 @@ How to wire some of this into a long-running service *ahead of time* so
 that when something goes wrong in production, you can diagnose it without
 restarting the process.
 
+### 6. [`docs/06_observability/`](docs/06_observability/README.md)
+
+The layers *around* your code: OS-level introspection below it
+(`strace`/`lsof`/`/proc`), lightweight tracing and coverage alongside it
+(`PySnooper`, `snoop`, `hunter`, `icecream`, `rich`, `coverage.py`), and
+production observability above it - error tracking (**Sentry**) and
+distributed tracing (**OpenTelemetry**) for problems that span a whole fleet
+or request path.
+
 ## Quick reference
 
 See [`CHEATSHEET.md`](CHEATSHEET.md) for a single page of commands.

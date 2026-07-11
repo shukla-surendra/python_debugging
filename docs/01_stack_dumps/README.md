@@ -58,6 +58,8 @@ which is why they're indispensable for production incidents - see
 | `06_py_spy_dump.md` | Using `py-spy dump` / `py-spy top` on a live process (no code changes), full options, production patterns |
 | `07_gdb_python_extension.md` | Using `gdb` + the CPython gdb helpers as a last resort |
 | `08_pystack.md` | `pystack` for live processes **and core dumps**, with native frames (Linux) |
+| `09_debugpy.md` | Interactive/remote debugging over DAP (VS Code / PyCharm attach, containers) |
+| `10_os_level_introspection.md` | `strace` / `lsof` / `/proc` - the OS layer below Python (which syscall/fd/kernel state) |
 
 ## Run order
 
@@ -71,5 +73,7 @@ python 05_pdb_post_mortem.py
 ```
 
 Then read the tool guides - `05_pdb_deep_dive.md`, `06_py_spy_dump.md`,
-`08_pystack.md`, and `07_gdb_python_extension.md`. The `py-spy`, `pystack`,
-and `gdb` walkthroughs require a second terminal (or a core dump).
+`08_pystack.md`, `07_gdb_python_extension.md`, `09_debugpy.md` (interactive/
+remote), and `10_os_level_introspection.md` (the OS layer below Python). The
+`py-spy`, `pystack`, and `gdb` walkthroughs require a second terminal (or a
+core dump).
