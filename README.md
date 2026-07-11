@@ -100,6 +100,14 @@ production observability above it - error tracking (**Sentry**) and
 distributed tracing (**OpenTelemetry**) for problems that span a whole fleet
 or request path.
 
+### 7. [`docs/07_memory_management_guide/`](docs/07_memory_management_guide/README.md) - the deep-dive handbook
+
+A complete, beginner-to-staff-engineer textbook on memory management, debugging,
+and profiling for Python on Linux, Docker, and Kubernetes: from "what is a byte
+of RAM" through RSS/PSS/USS, CPython internals, native memory, cgroups, the OOM
+killer, a full k8s debugging workflow, production case studies, cheat sheets,
+100+ interview questions, and hands-on labs.
+
 ## Quick reference
 
 See [`CHEATSHEET.md`](CHEATSHEET.md) for a single page of commands.

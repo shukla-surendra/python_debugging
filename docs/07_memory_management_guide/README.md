@@ -50,19 +50,20 @@ demos in [`../03_memory_profiling/`](../03_memory_profiling/) are used throughou
 | 11 | [Memory Leaks vs. Retention vs. Fragmentation](11_memory_leaks.md) | ✅ |
 | 12 | [Memory Profiling — The Complete Tool Catalog](12_memory_profiling.md) | ✅ |
 | 13 | [Kubernetes Memory Debugging Workflow](13_kubernetes_debugging.md) | ✅ |
-| 14 | Case Studies from Production | ⏳ |
-| 15 | Optimization Techniques | ⏳ |
-| 16 | Linux Commands Cheat Sheet | ⏳ |
-| 17 | Python Memory Cheat Sheet | ⏳ |
-| 18 | Kubernetes Cheat Sheet | ⏳ |
-| 19 | 100+ Interview Questions | ⏳ |
-| 20 | Practical Labs | ⏳ |
-| 21 | Best Practices | ⏳ |
-| — | Appendix — Glossary, Decision Trees, Further Reading | ⏳ |
+| 14 | [Case Studies from Production](14_case_studies.md) | ✅ |
+| 15 | [Optimization Techniques](15_optimization.md) | ✅ |
+| 16 | [Linux Commands Cheat Sheet](16_linux_cheatsheet.md) | ✅ |
+| 17 | [Python Memory Cheat Sheet](17_python_cheatsheet.md) | ✅ |
+| 18 | [Kubernetes Cheat Sheet](18_kubernetes_cheatsheet.md) | ✅ |
+| 19 | [100+ Interview Questions](19_interview_questions.md) | ✅ |
+| 20 | [Practical Labs](20_practical_labs.md) | ✅ |
+| 21 | [Best Practices](21_best_practices.md) | ✅ |
+| — | [Appendix — Glossary, Decision Trees, Further Reading](22_appendix.md) | ✅ |
 
 You can read front to back to go from beginner to expert, or jump to a chapter
 when you have a fire to put out. Cross-references point you to the prerequisite
 concepts.
 
-> **Progress note:** This handbook is being written one chapter at a time.
-> Ask for "the next chapter" to continue.
+> **Status: complete** — all 21 chapters + appendix are written. Start at
+> [Chapter 1](01_introduction.md) and read straight through, or jump to any
+> chapter above. Build the browsable HTML site with `make docs`.

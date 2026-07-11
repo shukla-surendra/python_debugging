@@ -313,4 +313,4 @@ throughout these cases: generators/streaming/chunking, `__slots__`, weakrefs,
 object pooling, cache tuning, batch sizing, avoiding copies, NumPy/pandas/OpenCV
 tricks, worker recycling, and thread-vs-process trade-offs.*
 
-[← Chapter 13](13_kubernetes_debugging.md) · [Back to index](README.md)
+[← Chapter 13](13_kubernetes_debugging.md) · [Back to index](README.md) · [Chapter 15 →](15_optimization.md)
