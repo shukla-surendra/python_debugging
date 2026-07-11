@@ -14,6 +14,9 @@
 
 # --- Stack dumps -------------------------------------------------------
 py-spy==0.4.2          # sampling profiler + "dump"/"top" for live processes
+pystack==1.4.1         # stack dumps for live processes AND core dumps, with
+                        # native (C/C++) frames + GIL/GC state. Linux only.
+                        # See 01_stack_dumps/08_pystack.md
 austin-python==2.2.0   # Python bindings/CLI helpers for the Austin sampling profiler
                         # (the `austin` binary itself is a separate native install,
                         # see 02_cpu_profiling/README.md)

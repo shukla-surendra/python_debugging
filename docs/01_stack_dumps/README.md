@@ -36,6 +36,7 @@ Stack dumps are your first tool for:
 | `sys._current_frames()` | yes | yes | no |
 | `pdb` | yes | n/a (interactive debugging, not a snapshot) | no |
 | `py-spy dump` | **no** | **yes** | **yes** (reads process memory) |
+| `pystack` | **no** | **yes** | **yes** (live process **or** core dump; native frames; Linux only) |
 | `gdb` | **no** | **yes**, even if the GIL is stuck | **yes** |
 
 The big takeaway: stdlib tools require you to have **planned ahead** (added
@@ -52,9 +53,11 @@ which is why they're indispensable for production incidents - see
 | `02_faulthandler_basics.py` | `faulthandler.enable()`, `dump_traceback()`, `dump_traceback_later()` (watchdog) |
 | `03_signal_handler_dump.py` | A `SIGUSR1` handler that dumps **all threads'** stacks on demand |
 | `04_threading_enumerate_dump.py` | `threading.enumerate()` + `sys._current_frames()` without signals |
-| `05_pdb_post_mortem.py` | `pdb.set_trace()`, `breakpoint()`, `pdb.post_mortem()` |
-| `06_py_spy_dump.md` | Using `py-spy dump` / `py-spy top` on a live process (no code changes) |
+| `05_pdb_post_mortem.py` | Runnable demo: `pdb.set_trace()`, `breakpoint()`, `pdb.post_mortem()` |
+| `05_pdb_deep_dive.md` | Deep dive: every `(Pdb)` command, better front-ends, production-safe usage |
+| `06_py_spy_dump.md` | Using `py-spy dump` / `py-spy top` on a live process (no code changes), full options, production patterns |
 | `07_gdb_python_extension.md` | Using `gdb` + the CPython gdb helpers as a last resort |
+| `08_pystack.md` | `pystack` for live processes **and core dumps**, with native frames (Linux) |
 
 ## Run order
 
@@ -67,5 +70,6 @@ python 04_threading_enumerate_dump.py
 python 05_pdb_post_mortem.py
 ```
 
-Then read `06_py_spy_dump.md` and `07_gdb_python_extension.md` and follow
-along - those require a second terminal.
+Then read the tool guides - `05_pdb_deep_dive.md`, `06_py_spy_dump.md`,
+`08_pystack.md`, and `07_gdb_python_extension.md`. The `py-spy`, `pystack`,
+and `gdb` walkthroughs require a second terminal (or a core dump).
