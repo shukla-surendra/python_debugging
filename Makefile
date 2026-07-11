@@ -1,12 +1,8 @@
 PYTHON := $(shell [ -x .venv/bin/python ] && echo .venv/bin/python || echo python3)
 
-.PHONY: docs docs-clean docs-serve
+.PHONY: docs
 
-docs: ## Render all Markdown docs to HTML under docs_html/
-	$(PYTHON) scripts/build_docs.py
-
-docs-clean: ## Remove generated HTML docs
+docs: ## Clean, render Markdown docs to HTML under docs_html/, and serve at http://localhost:8000
 	rm -rf docs_html
-
-docs-serve: docs ## Build docs and serve them at http://localhost:8000
+	$(PYTHON) scripts/build_docs.py
 	$(PYTHON) -m http.server --directory docs_html 8000

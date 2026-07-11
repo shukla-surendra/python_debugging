@@ -44,7 +44,7 @@ Work through these roughly in order. Each module is independent enough to
 jump around, but stack dumps first will make the profiling sections click
 faster.
 
-### 1. [`01_stack_dumps/`](01_stack_dumps/README.md) - "what is it doing right now?"
+### 1. [`docs/01_stack_dumps/`](docs/01_stack_dumps/README.md) - "what is it doing right now?"
 
 | Tool | Type | Needs source change? | Works on a *hung* process? |
 |---|---|---|---|
@@ -56,7 +56,7 @@ faster.
 | `py-spy dump` / `py-spy top` | external (Rust binary) | **no** | **yes** |
 | `gdb` + `python3-dbg` | external | **no** | **yes** (even native deadlocks) |
 
-### 2. [`02_cpu_profiling/`](02_cpu_profiling/README.md) - "where does the time go?"
+### 2. [`docs/02_cpu_profiling/`](docs/02_cpu_profiling/README.md) - "where does the time go?"
 
 | Tool | Technique | Overhead | Granularity | Needs source change? |
 |---|---|---|---|---|
@@ -67,7 +67,7 @@ faster.
 | `py-spy record` / `top` | statistical sampling (out-of-process) | ~zero | per-call (flamegraph) | **no** |
 | `scalene` | statistical + instrumented | low-medium | per-line, CPU/GPU/memory | no |
 
-### 3. [`03_memory_profiling/`](03_memory_profiling/README.md) - "where does the RAM go?"
+### 3. [`docs/03_memory_profiling/`](docs/03_memory_profiling/README.md) - "where does the RAM go?"
 
 | Tool | Tracks | Granularity | Live process? |
 |---|---|---|---|
@@ -79,12 +79,12 @@ faster.
 | `gc` | reference cycles, collection stats | object graph | yes |
 | `memray` | Python **and** native (C extension) allocations | line / call stack, flamegraph | attach or run-under |
 
-### 4. [`04_concurrency_debugging/`](04_concurrency_debugging/README.md)
+### 4. [`docs/04_concurrency_debugging/`](docs/04_concurrency_debugging/README.md)
 
 Putting stack dumps + profiling together for threads, `asyncio`, and
 `multiprocessing` - including diagnosing the deadlock in `workloads/deadlock.py`.
 
-### 5. [`05_production_playbook/`](05_production_playbook/README.md)
+### 5. [`docs/05_production_playbook/`](docs/05_production_playbook/README.md)
 
 How to wire some of this into a long-running service *ahead of time* so
 that when something goes wrong in production, you can diagnose it without
